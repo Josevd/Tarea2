@@ -1,0 +1,166 @@
+﻿using Microsoft.SqlServer.Server;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.Policy;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Schema;
+
+namespace Clase3
+{
+    internal class Program
+    {
+        public static float[] notas = new float[3];
+        public static string[] estudiantes = new string[3];
+        static void Main(string[] args)  // LOS METODOS UTILIZAN LA PALABRA RESERVADA VOID
+        {
+            menu();
+        }
+
+        private static void menu()
+        {
+            string op = "";
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("a-Ingresar notas");
+                Console.WriteLine("b-Consultar notas");
+                Console.WriteLine("c-modificar notas");
+                Console.WriteLine("d-Reporte");
+                Console.WriteLine("e-Borrar");
+                Console.WriteLine("f-Salir");
+                Console.Write("Digite una opcion: ");
+                //El metodo tolower es para convertir una cadena de caracteres a minuscula
+                //El metodo toupper es para convertir una cadena de caracteres a mayuscula
+                op = Console.ReadLine().ToLower();
+                switch (op)
+                {
+                    case "a": Ingresarnotas(); break;
+                    case "b": Consulta(); break;
+                    case "c": Modificar(); break;
+                    case "d": Reporte(); break;
+                    case "e": Borrar(); break;
+                    case "f": break;
+                    default:
+                        Console.WriteLine("Opcion no es valida!!");
+                        break;
+                }
+            } while (!op.Equals("f"));
+        }
+
+
+        public static void Borrar()
+        {
+            String nombEstudiante = "";
+            float[] notasTemp = new float[notas.Length - 1];
+            string[] estudiantesTemp = new string[estudiantes.Length - 1];
+            int indexBuff = 0;
+            Console.Clear();
+            Console.WriteLine("Digite un nombre de estudiante");
+            nombEstudiante = Console.ReadLine();
+
+            for (int i = 0; i < notas.Length; i++)
+            {
+                if (estudiantes[i] != nombEstudiante)
+                {
+                    notasTemp[indexBuff] = notas[i];
+                    estudiantesTemp[indexBuff] = estudiantes[i];
+
+                    indexBuff++;
+
+                }
+
+            }
+
+            notas = notasTemp;
+            estudiantes = estudiantesTemp;
+        }
+
+
+        public static void Reporte()
+        {
+            Console.Clear();
+            Console.WriteLine("********** Reporte de Estudiantes*************");
+            for (int i = 0; i < estudiantes.Length; i++)
+            {
+                Console.WriteLine($"Nombre: {estudiantes[i]} Nota: {notas[i]}");
+            }
+            Console.WriteLine("********** Fin del reporte*************");
+            Console.ReadLine();
+        }
+
+        public static void Modificar()
+        {
+            String nombEstudiante = "";
+            Boolean Existe = false;
+            Console.WriteLine("Digite un nombre de estudiante");
+            nombEstudiante = Console.ReadLine();
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (estudiantes[i].Equals(nombEstudiante))
+                {
+                    Console.Clear();
+                    Console.Write("Actualice el nombre:");
+                    estudiantes[i] = Console.ReadLine();
+                    Console.Write("Actualice la nota :");
+                    notas[i] = float.Parse(Console.ReadLine());
+                    Existe = true;
+                    break;
+                }
+
+            }
+
+            if (Existe == false)
+            {
+                Console.Clear();
+                Console.WriteLine("Estudiante no existe");
+            }
+        }
+
+        public static void Consulta()
+        {
+            String nombEstudiante = "";
+            Boolean Existe = false;
+            Console.WriteLine("Digite un nombre de estudiante");
+            nombEstudiante = Console.ReadLine();
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (estudiantes[i].Equals(nombEstudiante))
+                {
+                    Console.Clear();
+
+                    Console.WriteLine($"La nota del estudiante {estudiantes[i]} es: notas[i]");
+                    Existe = true;
+                    break;
+                }
+
+            }
+
+            if (Existe == false)
+            {
+                Console.Clear();
+                Console.WriteLine("Estudiante no existe");
+            }
+
+            Console.Read();
+
+        }
+        public static void Ingresarnotas()
+        {
+            for (int i = 0; i < notas.Length; i++)
+            {
+                Console.Write("Digite el nombre:");
+                estudiantes[i] = Console.ReadLine();
+                Console.Write("Digite la nota :");
+                notas[i] = float.Parse(Console.ReadLine());
+            }
+        }
+
+    }
+}
